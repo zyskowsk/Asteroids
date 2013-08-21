@@ -32,8 +32,19 @@ var Asteroids = (function(Lib) {
     };
 
     Game.prototype.update = function () {
-      //TODO: RWRIRIWTJE
+      var len = this.asteroids.length;
+
+      for(var i = 0; i < len; i++) {
+        this.asteroids[i].update();
+      }
+
+      this.draw();
     };
+
+    Game.prototype.start = function () {
+      var that = this;
+      window.setInterval(that.update.bind(that), 30);
+    }
 
     return Game ;
   })();

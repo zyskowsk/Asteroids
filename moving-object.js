@@ -1,13 +1,18 @@
 var Asteroids = (function(Lib) {
   Lib.MovingObject = (function() {
 
-      function MovingObject(pos) {
+      function MovingObject(pos, velocity) {
         this.pos = pos;
+        this.velocity = velocity;
       }
 
-      MovingObject.prototype.update = function(velocity) {
-        this.pos.x += velocity.x;
-        this.pos.y += velocity.y;
+      MovingObject.prototype.update = function() {
+        this.pos.x += this.velocity.x;
+        this.pos.y += this.velocity.y;
+      };
+
+      MovingObject.prototype.changeVelocity = function(newVelocity) {
+        this.velocity = newVelocity;
       };
 
       MovingObject.prototype.isOffScreen = function(xDim, yDim) {
