@@ -11,12 +11,10 @@ var Asteroids = (function (Lib) {
     Ship.inherits(Lib.MovingObject);
 
     Ship.prototype.draw = function (ctx) {
-      ctx.translate(this.pos.x, this.pos.y);
-
       ctx.fillStyle = 'red';
       ctx.save();
+      ctx.translate(this.pos.x, this.pos.y);
       ctx.rotate(this.direction);
-
       ctx.beginPath();
       ctx.moveTo(0 , -14);
       ctx.lineTo(10, 11);
