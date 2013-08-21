@@ -5,6 +5,7 @@ var Asteroids = (function(Lib) {
       this.xDim = xDim;
       this.yDim = yDim;
       this.asteroids = this.generateAsteroids();
+      this.ship = new Asteroids.Ship({x : (xDim / 2), y : (yDim / 2)})
       this.ctx = canvas.getContext("2d");
     }
 
@@ -21,29 +22,40 @@ var Asteroids = (function(Lib) {
     };
 
     Game.prototype.draw = function () {
-      console.log(this.asteroids);
       this.ctx.clearRect(0, 0, this.xDim, this.yDim);
 
       var len = this.asteroids.length;
       for (var i = 0; i < len; i++) {
-        console.log(this.asteroids[i]);
         this.asteroids[i].draw(this.ctx);
       }
+
+      this.ship.draw(this.ctx);
     };
+
+    Game.prototype.gameOver = function () {
+      window.clearInterval(gameTimer);
+      this.ctx.fillStyle = "black";
+      this.ctx.font = "40pt Arial ";
+      this.ctx.fillText("You have lost. GAME OVER.", 100, 100);
+    }
 
     Game.prototype.update = function () {
       var len = this.asteroids.length;
 
       for(var i = 0; i < len; i++) {
-        this.asteroids[i].update();
+        this.asteroids[i].update(this.xDim, this.yDim);
       }
 
       this.draw();
+
+      if (this.ship.isHit(this.asteroids)) {
+        this.gameOver();
+      }
     };
 
     Game.prototype.start = function () {
       var that = this;
-      window.setInterval(that.update.bind(that), 30);
+      gameTimer = window.setInterval(that.update.bind(that), 2);
     }
 
     return Game ;

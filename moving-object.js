@@ -1,14 +1,18 @@
 var Asteroids = (function(Lib) {
   Lib.MovingObject = (function() {
 
-      function MovingObject(pos, velocity) {
+      function MovingObject(pos, velocity, radius) {
         this.pos = pos;
         this.velocity = velocity;
+        this.radius = radius;
       }
 
-      MovingObject.prototype.update = function() {
+      MovingObject.prototype.update = function(xDim, yDim) {
         this.pos.x += this.velocity.x;
         this.pos.y += this.velocity.y;
+
+        this.pos.x %= xDim;
+        this.pos.y %= yDim;
       };
 
       MovingObject.prototype.changeVelocity = function(newVelocity) {
@@ -20,7 +24,15 @@ var Asteroids = (function(Lib) {
           (this.pos.y > yDim) || (this.pos.y < 0));
 
         return isOffScreen;
-      }
+      };
+
+      MovingObject.prototype.collidesWith = function(otherObject) {
+        var distSqrd = Math.pow((this.pos.x - otherObject.pos.x), 2) +
+                       Math.pow((this.pos.y - otherObject.pos.y), 2);
+        var cartDist = Math.sqrt(distSqrd);
+
+        return cartDist < (this.radius + otherObject.radius);
+      };
 
     return MovingObject;
   })();
