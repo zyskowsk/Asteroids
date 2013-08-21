@@ -46,6 +46,8 @@ var Asteroids = (function(Lib) {
         this.asteroids[i].update(this.xDim, this.yDim);
       }
 
+      this.ship.update(this.xDim, this.yDim);
+
       this.draw();
 
       if (this.ship.isHit(this.asteroids)) {
