@@ -15,9 +15,9 @@ var Asteroids = (function(Lib) {
         this.pos.y = (this.pos.y + yDim) % yDim;
       };
 
-      MovingObject.prototype.changeVelocity = function(newVelocity) {
-        this.velocity = newVelocity;
-      };
+      // MovingObject.prototype.changeVelocity = function(newVelocity) {
+  //       this.velocity = newVelocity;
+  //     };
 
       MovingObject.prototype.isOffScreen = function(xDim, yDim) {
         var isOffScreen = ((this.pos.x > xDim) || (this.pos.x < 0) ||
@@ -26,6 +26,18 @@ var Asteroids = (function(Lib) {
         return isOffScreen;
       };
 
+      MovingObject.prototype.isHit = function (otherObjects) {
+        var len = otherObjects.length;
+
+        for(var i = 0; i < len; i++) {
+          if(this.collidesWith(otherObjects[i])) {
+            return true;
+          }
+        }
+
+        return false;
+      }
+
       MovingObject.prototype.collidesWith = function(otherObject) {
         var distSqrd = Math.pow((this.pos.x - otherObject.pos.x), 2) +
                        Math.pow((this.pos.y - otherObject.pos.y), 2);
@@ -33,6 +45,11 @@ var Asteroids = (function(Lib) {
 
         return cartDist < (this.radius + otherObject.radius);
       };
+
+      MovingObject.prototype.calculateForwardDir = function() {
+      return { x : Math.cos(this.direction - (Math.PI / 2)),
+               y : Math.sin(this.direction - (Math.PI / 2)) };
+      }
 
     return MovingObject;
   })();

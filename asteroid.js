@@ -21,8 +21,10 @@ var Asteroids = (function (Lib) {
       );
     };
 
+
     Asteroid.prototype.draw = function (ctx) {
-      ctx.fillStyle = "black";
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = 2;
       ctx.beginPath();
 
       ctx.arc(
@@ -34,7 +36,7 @@ var Asteroids = (function (Lib) {
         false
       );
 
-      ctx.fill();
+      ctx.stroke();
     };
 
     return Asteroid;

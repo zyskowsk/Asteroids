@@ -7,10 +7,12 @@ var Asteroids = (function (Lib) {
       this.direction = Math.PI / 2;
       this.velocity = {x : 0, y : 0};
       this.radius = 5;
+      this.firedBullets = [];
       key('left', function() { that.rotate('left') });
       key('right', function() { that.rotate('right') });
       key('up', function() { that.power() });
       key('down', function() { that.decelerate() });
+      key('space', function() { that.fireBullet() });
     }
 
     Ship.inherits(Lib.MovingObject);
@@ -33,25 +35,12 @@ var Asteroids = (function (Lib) {
       ctx.restore();
     };
 
-    Ship.prototype.isHit = function (asteroids) {
-      var len = asteroids.length;
-
-      for(var i = 0; i < len; i++) {
-        if(this.collidesWith(asteroids[i])) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
     Ship.prototype.power = function () {
 
-      var acceleration = { x : Math.cos(this.direction - (Math.PI / 2)) * .03,
-                           y : Math.sin(this.direction - (Math.PI / 2)) * .03};
+      var acceleration = this.calculateForwardDir();
 
-      this.velocity = { x : this.velocity.x + acceleration.x,
-                       y : this.velocity.y + acceleration.y };
+      this.velocity = { x : this.velocity.x + acceleration.x * 0.03,
+                       y : this.velocity.y + acceleration.y * 0.03};
 
     }
 
@@ -68,6 +57,25 @@ var Asteroids = (function (Lib) {
       } else if (direction === 'right') {
         this.direction += rotationScale;
       }
+    }
+
+    Ship.prototype.deleteBullets = function () {
+      var onScreenBullets = [];
+      var len = this.firedBullets.length;
+      for (var i = 0; i < len; i++) {
+        if (!this.firedBullets[i].isOffBoard) {
+          onScreenBullets.push(this.firedBullets[i]);
+        }
+      }
+
+      this.firedBullets = onScreenBullets;
+    }
+
+    Ship.prototype.fireBullet = function() {
+      var pos = { x : this.pos.x, y : this.pos.y }
+      var newBullet = new Asteroids.Bullet(pos, this.direction);
+      this.firedBullets.push(newBullet);
+      console.log(this.firedBullets);
     }
 
     return Ship;
