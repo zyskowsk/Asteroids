@@ -8,7 +8,7 @@ var Asteroids = (function (Lib) {
     }
 
     Asteroid.inherits(Lib.MovingObject);
-    Asteroid.MAX_RADIUS = 100;
+    Asteroid.MAX_RADIUS = 25;
     Asteroid.MAX_VELOCITY = 1;
 
     Asteroid.randomAsteroid = function (maxX, maxY) {
@@ -16,8 +16,8 @@ var Asteroids = (function (Lib) {
         { x : maxX * Math.random(),
           y : maxY * Math.random() },
           this.MAX_RADIUS * Math.random() + 8,
-        { x : this.MAX_VELOCITY * Math.random(),
-          y : this.MAX_VELOCITY * Math.random() }
+        { x : this.MAX_VELOCITY * (Math.random() - .5),
+          y : this.MAX_VELOCITY * (Math.random() - .5) }
       );
     };
 

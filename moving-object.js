@@ -11,8 +11,8 @@ var Asteroids = (function(Lib) {
         this.pos.x += this.velocity.x;
         this.pos.y += this.velocity.y;
 
-        this.pos.x %= xDim;
-        this.pos.y %= yDim;
+        this.pos.x = (this.pos.x + xDim) % xDim;
+        this.pos.y = (this.pos.y + yDim) % yDim;
       };
 
       MovingObject.prototype.changeVelocity = function(newVelocity) {
